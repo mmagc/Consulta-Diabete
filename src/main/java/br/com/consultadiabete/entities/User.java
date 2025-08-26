@@ -33,11 +33,11 @@ public class User {
     public  String name;
 
     @NotBlank
+    @Email
     @Column(nullable = false)
     public String email;
 
     @NotBlank
-    @Email
     @Column(nullable = false)
     public String password;
 
