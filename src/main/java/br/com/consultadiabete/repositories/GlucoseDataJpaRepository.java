@@ -16,7 +16,7 @@ public interface GlucoseDataJpaRepository extends JpaRepository<GlucoseData, UUI
     Page<GlucoseData> findByUser_Id(UUID userId, Pageable pageable);
 
     // Busca por intervalo de datas (com ordenação)
-    List<GlucoseData> findByUser_IdAndMeasuredAtBetween(
+    List<GlucoseData> findByUser_IdAndMeassurementTimeBetween(
             UUID userId, LocalDateTime start, LocalDateTime end, Sort sort);
 
 }
