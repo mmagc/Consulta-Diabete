@@ -1,6 +1,8 @@
 package br.com.consultadiabete.entities;
 
+import br.com.consultadiabete.dto.users.CreateUserDto;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
