@@ -27,7 +27,7 @@ public class GlucoseData {
 
     @NotNull
     @Column(nullable = false)
-    public Integer glucose;
+    public int glucose;
 
     @NotBlank
     @Column(nullable = false)
