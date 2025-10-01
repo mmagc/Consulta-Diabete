@@ -1,5 +1,7 @@
 package br.com.consultadiabete.repositories;
 
+import br.com.consultadiabete.dto.glucoseData.CreateGlucoseDto;
+import br.com.consultadiabete.dto.glucoseData.GlucoseDataResponseDTO;
 import br.com.consultadiabete.entities.GlucoseData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +16,7 @@ public interface GlucoseDataJpaRepository extends JpaRepository<GlucoseData, UUI
 
     Page<GlucoseData> findByUser_Id(UUID userId, Pageable pageable);
 
-    List<GlucoseData> findByUser_IdAndMeassurementTimeBetween(
+    List<GlucoseDataResponseDTO> findByUser_IdAndMeassurementTimeBetween(
             UUID userId, LocalDateTime start, LocalDateTime end, Sort sort);
 
 }
