@@ -31,9 +31,9 @@ public class GlucoseController {
         glucoseDataJpaRepository.save(glucoseData);
     }
 
-    @GetMapping("/get/{userId}")
+    @GetMapping("/get/{id}")
     public List<GlucoseDataResponseDTO> getGlucoseDataByUser(
-            @PathVariable UUID userId,
+            @PathVariable("id") UUID userId,
             @ParameterObject
             @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable) {

@@ -10,8 +10,7 @@ import org.mapstruct.Mapping;
 public interface GlucoseStructMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(source = "dto.meassurementTime", target = "meassurementTime")
     @Mapping(source = "dto.userId", target = "user.id")
     GlucoseData toEntity(CreateGlucoseDto dto);
 

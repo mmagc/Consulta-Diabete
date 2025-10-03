@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class GlucoseDataResponseDTO {
 
     private int glucose;
-    private String measurementTime;
+    private String meassurementTime;
     private String userName;
 
 }

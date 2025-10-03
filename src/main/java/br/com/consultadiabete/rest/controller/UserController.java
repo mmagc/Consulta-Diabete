@@ -1,6 +1,7 @@
 package br.com.consultadiabete.rest.controller;
 
 import br.com.consultadiabete.dto.users.CreateUserDto;
+import br.com.consultadiabete.dto.users.UserResponseDTO;
 import br.com.consultadiabete.entities.User;
 import br.com.consultadiabete.mappers.UserStructMapper;
 import br.com.consultadiabete.repositories.UserJpaRepository;
@@ -24,8 +25,11 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public List<User> findAll(){
-        return userJpaRepository.findAll();
+    public List<UserResponseDTO> findAll() {
+        return userJpaRepository
+                .findAll()
+                .stream()
+                .map(userStructMapper::toResponseDTO)
+                .toList();
     }
-
 }
