@@ -28,24 +28,24 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    public UUID id;
+    private UUID id;
 
     @NotBlank
     @Column(nullable = false)
-    public  String name;
+    private String name;
 
     @NotBlank
     @Email
     @Column(nullable = false)
-    public String email;
+    private String email;
 
     @NotBlank
     @Column(nullable = false)
-    public String password;
+    private String password;
 
     @CreationTimestamp
     @Column(nullable = false)
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;

@@ -23,19 +23,19 @@ public class GlucoseData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    public UUID id;
+    private UUID id;
 
     @NotNull
     @Column(nullable = false)
-    public int glucose;
+    private int glucose;
 
     @NotBlank
     @Column(nullable = false)
-    public String meassurementTime;
+    private String meassurementTime;
 
     @CreationTimestamp
     @Column(nullable = false)
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
