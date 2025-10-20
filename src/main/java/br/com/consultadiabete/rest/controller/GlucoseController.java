@@ -39,8 +39,9 @@ public class GlucoseController {
             Pageable pageable) {
 
         return glucoseDataJpaRepository
-                .findByUser_Id(userId, pageable)
+                .findPageByUserIdFetchUser(userId, pageable)
                 .map(glucoseStructMapper::toResponseDTO)
                 .getContent();
     }
+
 }
