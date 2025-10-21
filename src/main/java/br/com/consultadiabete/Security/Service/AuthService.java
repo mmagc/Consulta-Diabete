@@ -24,6 +24,6 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciais inválidas");
         }
         String token = jwt.generate(user.getEmail());
-        return new TokenResponse(token, "Bearer");
+        return new TokenResponse(token, "Bearer", user.getId());
     }
 }
