@@ -1,7 +1,7 @@
 package br.com.consultadiabete.Security.Filter;
 
 import br.com.consultadiabete.Security.Service.JwtTokenService;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,14 +27,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (h != null && h.startsWith("Bearer ")) {
             String token = h.substring(7);
             try {
-                var claims = jwt.parse(token).getBody();
-                String email = claims.getSubject();
-                // sem perfis/roles por enquanto; autentica por e-mail
+                Claims claims = jwt.parse(token);  // Extraímos o corpo do token com os claims
+                String email = claims.getSubject();  // O e-mail está no "subject"
+                String userId = claims.get("id", String.class);  // Obtemos o ID do claim "id"
+
+                // Sem perfis/roles por enquanto, autentica por e-mail e ID
                 var auth = new UsernamePasswordAuthenticationToken(email, null, List.of());
+
+                // Adiciona o ID como atributo da autenticação (útil para buscar usuário ou outros processos)
+                auth.setDetails(userId);
+
+                // Define a autenticação no contexto de segurança
                 SecurityContextHolder.getContext().setAuthentication(auth);
-            } catch (Exception ignored) { /* token inválido -> segue 401 em endpoints protegidos */ }
+            } catch (Exception ignored) {
+                // Token inválido -> segue 401 em endpoints protegidos
+            }
         }
-        chain.doFilter(req, res);
+        chain.doFilter(req, res);  // Continua com o fluxo do filtro
     }
 }
-

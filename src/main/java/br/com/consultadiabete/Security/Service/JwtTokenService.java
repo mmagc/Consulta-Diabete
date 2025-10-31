@@ -12,6 +12,7 @@ import java.security.Key;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenService {
@@ -23,18 +24,25 @@ public class JwtTokenService {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generate(String subject) {
+    public String generate(String subject, UUID id) {
         Instant now = Instant.now();
         return Jwts.builder()
                 .setIssuer(issuer)
                 .setSubject(subject)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plus(Duration.ofMinutes(expMin))))
+                .claim("id", id)  // Adiciona o ID como um claim
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public Jws<Claims> parse(String token) {
-        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token);
+
+    public Claims parse(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();  // Retorna os claims diretamente
     }
+
 }

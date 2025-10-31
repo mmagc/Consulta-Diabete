@@ -23,7 +23,13 @@ public class AuthService {
         if (!encoder.matches(req.getPassword(), user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciais inválidas");
         }
-        String token = jwt.generate(user.getEmail());
-        return new TokenResponse(token, "Bearer", user.getId());
+
+        // Gerar o token
+        String accessToken = jwt.generate(user.getEmail(), user.getId());
+
+        // Criar a resposta com accessToken, tokenType ("Bearer") e userId
+        return new TokenResponse(accessToken, "Bearer", user.getId());
     }
+
+
 }
