@@ -44,4 +44,9 @@ public class GlucoseController {
                 .getContent();
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteGlucoseData(@PathVariable("id") UUID userId) {
+        glucoseDataJpaRepository.deleteById(userId);
+    }
+
 }
