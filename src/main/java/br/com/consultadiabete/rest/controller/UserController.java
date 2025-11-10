@@ -2,16 +2,10 @@ package br.com.consultadiabete.rest.controller;
 
 import br.com.consultadiabete.dto.users.CreateUserDto;
 import br.com.consultadiabete.dto.users.UserResponseDTO;
-import br.com.consultadiabete.entities.User;
-import br.com.consultadiabete.mappers.UserStructMapper;
-import br.com.consultadiabete.repositories.UserJpaRepository;
-import br.com.consultadiabete.usecases.user.CreateUserUsecase;
+import br.com.consultadiabete.usecases.user.CreateUserUseCase;
 import br.com.consultadiabete.usecases.user.FindAllUsersUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,7 +14,7 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private final CreateUserUsecase createUserUsecase;
+    private final CreateUserUseCase createUserUsecase;
     private final FindAllUsersUseCase findAllUsersUseCase;
 
     @PostMapping("/create")

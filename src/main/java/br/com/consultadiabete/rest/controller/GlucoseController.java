@@ -5,6 +5,9 @@ import br.com.consultadiabete.dto.glucoseData.GlucoseDataResponseDTO;
 import br.com.consultadiabete.entities.GlucoseData;
 import br.com.consultadiabete.mappers.GlucoseStructMapper;
 import br.com.consultadiabete.repositories.GlucoseDataJpaRepository;
+import br.com.consultadiabete.usecases.glucoseData.CreateGlucoseDataUseCase;
+import br.com.consultadiabete.usecases.glucoseData.DeleteGlucoseUseCase;
+import br.com.consultadiabete.usecases.glucoseData.FindGlucoseByIdUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -22,13 +25,14 @@ import java.util.UUID;
 @RequestMapping("/glucose")
 public class GlucoseController {
 
-    private final GlucoseDataJpaRepository glucoseDataJpaRepository;
-    private final GlucoseStructMapper glucoseStructMapper;
+    private final CreateGlucoseDataUseCase createGlucoseDataUseCase;
+    private final FindGlucoseByIdUseCase findGlucoseByIdUseCase;
+    private final DeleteGlucoseUseCase deleteGlucoseUseCase;
+
 
     @PostMapping("/create")
-    public void createGlucoseData(@RequestBody CreateGlucoseDto  glucoseDto) {
-        GlucoseData glucoseData = glucoseStructMapper.toEntity(glucoseDto);
-        glucoseDataJpaRepository.save(glucoseData);
+    public void createGlucoseData(@RequestBody CreateGlucoseDto  request) {
+       createGlucoseDataUseCase.execute(request);
     }
 
     @GetMapping("/get/{id}")
@@ -38,15 +42,12 @@ public class GlucoseController {
             @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable) {
 
-        return glucoseDataJpaRepository
-                .findPageByUserIdFetchUser(userId, pageable)
-                .map(glucoseStructMapper::toResponseDTO)
-                .getContent();
+        return findGlucoseByIdUseCase.execute(userId, pageable);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteGlucoseData(@PathVariable("id") UUID userId) {
-        glucoseDataJpaRepository.deleteById(userId);
+        deleteGlucoseUseCase.execute(userId);
     }
 
 }

@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @UseCase
 @Slf4j
 @RequiredArgsConstructor
-public class CreateUserUsecase {
+public class CreateUserUseCase {
 
     private final UserJpaRepository userJpaRepository;
     private final UserStructMapper userStructMapper;
