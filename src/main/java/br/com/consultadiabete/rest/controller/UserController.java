@@ -5,6 +5,8 @@ import br.com.consultadiabete.dto.users.UserResponseDTO;
 import br.com.consultadiabete.entities.User;
 import br.com.consultadiabete.mappers.UserStructMapper;
 import br.com.consultadiabete.repositories.UserJpaRepository;
+import br.com.consultadiabete.usecases.user.CreateUserUsecase;
+import br.com.consultadiabete.usecases.user.FindAllUsersUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,26 +20,16 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserJpaRepository userJpaRepository;
-    private final UserStructMapper userStructMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final CreateUserUsecase createUserUsecase;
+    private final FindAllUsersUseCase findAllUsersUseCase;
 
     @PostMapping("/create")
-    public void createUser(@RequestBody CreateUserDto userDto){
-        if (userJpaRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail já cadastrado");
-        }
-        User user = userStructMapper.toEntity(userDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // <- BCrypt aqui
-        userJpaRepository.save(user);
+    public void createUser(@RequestBody CreateUserDto request){
+        createUserUsecase.execute(request);
     }
 
     @GetMapping("/get")
     public List<UserResponseDTO> findAll() {
-        return userJpaRepository
-                .findAll()
-                .stream()
-                .map(userStructMapper::toResponseDTO)
-                .toList();
+        return findAllUsersUseCase.execute();
     }
 }
