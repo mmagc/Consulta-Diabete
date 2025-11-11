@@ -2,16 +2,13 @@ package br.com.consultadiabete.rest.controller;
 
 import br.com.consultadiabete.dto.glucoseData.CreateGlucoseDto;
 import br.com.consultadiabete.dto.glucoseData.GlucoseDataResponseDTO;
-import br.com.consultadiabete.entities.GlucoseData;
-import br.com.consultadiabete.mappers.GlucoseStructMapper;
-import br.com.consultadiabete.repositories.GlucoseDataJpaRepository;
+import br.com.consultadiabete.dto.glucoseData.UpdateGlucoseDto;
 import br.com.consultadiabete.usecases.glucoseData.CreateGlucoseDataUseCase;
 import br.com.consultadiabete.usecases.glucoseData.DeleteGlucoseUseCase;
 import br.com.consultadiabete.usecases.glucoseData.FindGlucoseByIdUseCase;
-import jakarta.validation.Valid;
+import br.com.consultadiabete.usecases.glucoseData.UpdateGlucoseUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +24,7 @@ public class GlucoseController {
 
     private final CreateGlucoseDataUseCase createGlucoseDataUseCase;
     private final FindGlucoseByIdUseCase findGlucoseByIdUseCase;
+    private final UpdateGlucoseUseCase updateGlucoseUseCase;
     private final DeleteGlucoseUseCase deleteGlucoseUseCase;
 
 
@@ -43,6 +41,12 @@ public class GlucoseController {
             Pageable pageable) {
 
         return findGlucoseByIdUseCase.execute(userId, pageable);
+    }
+
+
+    @PutMapping("/edit/{id}")
+    public void editGlucoseData(@PathVariable("id") UUID id, @RequestBody UpdateGlucoseDto request){
+        updateGlucoseUseCase.execute(id, request);
     }
 
     @DeleteMapping("/delete/{id}")
