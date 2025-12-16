@@ -11,10 +11,13 @@ public class CorsConfig implements WebMvcConfigurer {
     @Value("${cht.front.url}")
     private String baseUrlFront;
 
+    @Value("${cht.front.test.url}")
+    private String baseTestUrlFront;
+    
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(baseUrlFront)
+                .allowedOrigins(baseUrlFront, baseTestUrlFront)
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("*")
